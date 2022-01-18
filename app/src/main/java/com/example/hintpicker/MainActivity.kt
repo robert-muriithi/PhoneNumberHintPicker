@@ -1,27 +1,21 @@
 package com.example.hintpicker
 
-import android.R.attr
 import android.content.Intent
-import android.content.IntentSender
-import androidx.appcompat.app.AppCompatActivity
+import android.content.IntentSender.SendIntentException
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.example.hintpicker.databinding.ActivityMainBinding
-import com.google.android.gms.auth.api.credentials.*
+import com.google.android.gms.auth.api.credentials.Credential
+import com.google.android.gms.auth.api.credentials.Credentials
+import com.google.android.gms.auth.api.credentials.CredentialsApi
 import com.google.android.gms.auth.api.credentials.HintRequest
-import android.app.PendingIntent
-import android.content.IntentSender.SendIntentException
-import java.security.AccessController.getContext
-import androidx.core.app.ActivityCompat.startIntentSenderForResult
-import android.widget.EditText
-
-import android.R.attr.data
-import android.app.Activity
 
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var NUMBER_PICKER_REQUEST = 1
+
     /*companion object {
         var NUMBER_PICKER_REQUEST = 1
     }*/
@@ -73,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-        }else if (requestCode == NUMBER_PICKER_REQUEST && resultCode == CredentialsApi.ACTIVITY_RESULT_NO_HINTS_AVAILABLE){
+        } else if (requestCode == NUMBER_PICKER_REQUEST && resultCode == CredentialsApi.ACTIVITY_RESULT_NO_HINTS_AVAILABLE) {
             Toast.makeText(this, "no number found", Toast.LENGTH_SHORT).show()
         }
 
