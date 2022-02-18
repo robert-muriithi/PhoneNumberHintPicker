@@ -1,8 +1,10 @@
 package com.example.hintpicker
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.content.IntentSender.SendIntentException
 import android.os.Bundle
+import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.hintpicker.databinding.ActivityMainBinding
@@ -16,15 +18,13 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private var NUMBER_PICKER_REQUEST = 1
 
-    /*companion object {
-        var NUMBER_PICKER_REQUEST = 1
-    }*/
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        binding.verifyBtn.setOnClickListener { verify() }
     }
 
     override fun onStart() {
@@ -70,7 +70,26 @@ class MainActivity : AppCompatActivity() {
         } else if (requestCode == NUMBER_PICKER_REQUEST && resultCode == CredentialsApi.ACTIVITY_RESULT_NO_HINTS_AVAILABLE) {
             Toast.makeText(this, "no number found", Toast.LENGTH_SHORT).show()
         }
-
     }
+
+    private fun verify() {
+        binding.mobileNumberET.onEditorAction(EditorInfo.IME_ACTION_DONE)
+        invalidateVerificationUI(false)
+    }
+
+    private fun invalidateVerificationUI(isEnabled: Boolean) {
+        if (isEnabled) {
+            binding.mobileNumberET.setText("")
+        } else {
+            val dialog = ProgressDialog(this)
+            dialog.setTitle("Verifying")
+            dialog.setMessage("Please Wait..")
+            dialog.setCanceledOnTouchOutside(false)
+            dialog.show()
+        }
+        binding.verifyBtn.isEnabled = isEnabled
+        binding.mobileNumberET.isEnabled = isEnabled
+    }
+
 
 }
